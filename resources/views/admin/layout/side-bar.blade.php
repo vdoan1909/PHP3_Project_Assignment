@@ -34,6 +34,29 @@
                     </ul>
                 </div>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link menu-link {{ Request::RouteIs(['admin.exams.index', 'admin.exams.create', 'admin.exams.edit']) ? 'active' : '' }}"
+                    href="#exam" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="exam">
+                    <i class="ri-timer-fill"></i> <span>Exams</span>
+                </a>
+                <div class="collapse menu-dropdown" id="exam">
+                    <ul class="nav nav-sm flex-column">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.exams.index') }}"
+                                class="nav-link {{ Request::RouteIs('admin.exams.index') ? 'active' : '' }}">
+                                List Exams
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.exams.create') }}"
+                                class="nav-link {{ Request::RouteIs('admin.exams.create') ? 'active' : '' }}">
+                                Create Exams
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
         </ul>
     </div>
 </div>
