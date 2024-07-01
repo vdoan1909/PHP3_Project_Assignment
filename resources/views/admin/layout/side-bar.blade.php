@@ -57,6 +57,32 @@
                     </ul>
                 </div>
             </li>
+
+            <li class="nav-item">
+                <a class="nav-link menu-link {{ Request::RouteIs(['admin.questions.index', 'admin.questions.import', 'admin.questions.edit'])
+                    ? 'active'
+                    : '' }}"
+                    href="#question" data-bs-toggle="collapse" role="button" aria-expanded="false"
+                    aria-controls="question">
+                    <i class="ri-questionnaire-fill"></i> <span>Questions</span>
+                </a>
+                <div class="collapse menu-dropdown" id="question">
+                    <ul class="nav nav-sm flex-column">
+                        <li class="nav-item">
+                            <a href="{{ route('admin.questions.index') }}"
+                                class="nav-link {{ Request::RouteIs('admin.questions.index') ? 'active' : '' }}">
+                                List Questions
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('admin.questions.import') }}"
+                                class="nav-link {{ Request::RouteIs('admin.questions.import') ? 'active' : '' }}">
+                                Create Questions
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
         </ul>
     </div>
 </div>
