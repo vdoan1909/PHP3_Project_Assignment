@@ -15,4 +15,9 @@ class Subject extends Model
         "image",
         "slug",
     ];
+
+    public function exams()
+    {
+        return $this->hasMany(Exam::class);
+    }
 }

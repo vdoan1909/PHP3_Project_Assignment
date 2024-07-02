@@ -13,4 +13,8 @@ class UserSubject extends Model
         "user_id",
         "subject_id",
     ];
+
+    public function subject(){
+        return $this->belongsTo(Subject::class);
+    }
 }

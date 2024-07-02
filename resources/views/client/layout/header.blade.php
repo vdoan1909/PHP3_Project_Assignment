@@ -25,23 +25,23 @@
         <div class="container">
             <div class="header-main-wrapper">
                 <div class="header-logo">
-                    <a href="#"><img src="{{ asset('theme/client/assets/images/logo.png') }}"
+                    <a href="{{ route('client.index') }}"><img src="{{ asset('theme/client/assets/images/logo.png') }}"
                             alt="Logo"></a>
                 </div>
                 <div class="header-menu d-none d-lg-block">
                     <ul class="nav-menu">
                         <li>
-                            <a href="#">Trang chủ</a>
+                            <a href="{{ route('client.index') }}">Trang chủ</a>
                         </li>
                         <li>
-                            <a href="#">Môn học</a>
+                            <a href="{{ route('client.menu') }}">Môn học</a>
                         </li>
                         <li>
-                            <a href="#">Bài kiểm tra</a>
+                            <a href="{{ route('client.exams.index') }}">Bài kiểm tra</a>
                         </li>
                         @if (Auth::Check())
                             <li>
-                                <a href="#">Hồ sơ</a>
+                                <a href="{{ route('client.customers.show') }}">Hồ sơ</a>
                             </li>
                         @endif
                     </ul>
@@ -115,18 +115,18 @@
     <div class="mobile-menu-items">
         <ul class="nav-menu">
             <li>
-                <a href="#">Trang chủ</a>
+                <a href="{{ route('client.index') }}">Trang chủ</a>
             </li>
             <li>
-                <a href="#">Môn học</a>
+                <a href="{{ route('client.menu') }}">Môn học</a>
             </li>
 
             <li>
-                <a href="#">Bài kiểm tra</a>
+                <a href="{{ route('client.exams.index') }}">Bài kiểm tra</a>
             </li>
             @if (Auth::Check())
                 <li>
-                    <a href="#">Hồ sơ</a>
+                    <a href="{{ route('client.customers.show') }}">Hồ sơ</a>
                 </li>
             @endif
         </ul>

@@ -18,4 +18,8 @@ class Question extends Model
         "correct_answer",
         "exam_id",
     ];
+
+    public function exam(){
+        return $this->belongsTo(Exam::class);
+    }
 }
