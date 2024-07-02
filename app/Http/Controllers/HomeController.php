@@ -136,7 +136,9 @@ class HomeController extends Controller
         return redirect()->route("client.exams.result")->with(
             [
                 "exam" => $exam->id,
-                "score" => $score
+                "score" => $score,
+                "questions" => $questions,
+                "user_answer" => $user_answer,
             ]
         );
     }
@@ -145,8 +147,12 @@ class HomeController extends Controller
     {
         $exam = Exam::findOrFail(session("exam"));
         $score = session("score");
+        $questions = session("questions");
+        $user_answer = session("user_answer");
+        // dd($questions->toArray());
+        // dd($user_answer);
         $currentDate = Carbon::now("Asia/Ho_Chi_Minh")->format('d/m/Y');
 
-        return view("client.exam.result", compact("exam", "score", "currentDate"));
+        return view("client.exam.result", compact("exam", "score", "currentDate", "questions", "user_answer"));
     }
 }

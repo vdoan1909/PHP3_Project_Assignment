@@ -76,7 +76,11 @@
             const timerElement = document.getElementById('timer');
 
             let remainingTime = localStorage.getItem(`exam_${examId}_remaining_time`);
-            remainingTime = remainingTime ? parseInt(remainingTime, 10) : timeLimit;
+            if (!remainingTime) {
+                remainingTime = timeLimit;
+            } else {
+                remainingTime = parseInt(remainingTime, 10);
+            }
 
             const saveRemainingTime = () => {
                 localStorage.setItem(`exam_${examId}_remaining_time`, remainingTime);
@@ -105,8 +109,10 @@
             updateTimerDisplay();
 
             document.querySelector('.container-fluid').addEventListener('submit', (event) => {
-                console.log("Form is being submitted."); // Thêm câu này vào.
                 localStorage.removeItem(`exam_${examId}_remaining_time`);
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1000);
             });
         });
     </script>
