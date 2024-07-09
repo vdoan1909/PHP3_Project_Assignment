@@ -19,7 +19,7 @@
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
                 <h4 class="mb-sm-0">Questions</h4>
 
-                <a href="{{ Route('admin.questions.import') }}" class="btn btn-primary">Create a new question</a>
+                <a href="{{ Route('admin.questions.create') }}" class="btn btn-primary">Create a new question</a>
             </div>
         </div>
     </div>

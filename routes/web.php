@@ -44,7 +44,7 @@ Route::prefix("admin")
             ->as("questions.")
             ->group(function () {
                 Route::get("/", [QuestionController::class, "index"])->name("index");
-                Route::get("import", [QuestionController::class, "import"])->name("import");
+                Route::get("import", [QuestionController::class, "import"])->name("create");
                 Route::post("file", [QuestionController::class, "file"])->name("file");
                 Route::get("edit/{question}", [QuestionController::class, "edit"])->name("edit");
                 Route::put("update/{question}", [QuestionController::class, "update"])->name("update");
