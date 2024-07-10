@@ -36,8 +36,8 @@
                     {{ $exam->name }}
                 </h1>
                 <div class="mb-3">
-                    <h2 class="text-success text-center">Điểm: {{ number_format($score, 0) }} / 10</h2>
-                    <p class="text-center">Tổng số câu trả lời đúng: {{ number_format($score, 0) }}</p>
+                    <h2 class="text-success text-center">Điểm: {{ $score }} / 10</h2>
+                    <p class="text-center">Tổng số câu trả lời đúng: {{ $user_correct_answer}}</p>
                     <p class="text-center">Tổng số câu hỏi: {{ $exam->number_of_questions }}</p>
                     <p class="text-center">Ngày làm bài: {{ $currentDate }}</p>
                 </div>

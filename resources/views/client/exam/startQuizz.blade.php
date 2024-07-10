@@ -46,7 +46,7 @@
                 @foreach ($exam->questions as $index => $question)
                     <div class="mt-3">
                         <div class="quiz-question">
-                            <strong>Câu: {{ $i++ }} {{ $question->name }}</strong>
+                            <strong>Câu {{ $i++ }}: {{ $question->name }}</strong>
                         </div>
                         <div class="quiz-options">
                             @foreach (['a', 'b', 'c', 'd'] as $option)
