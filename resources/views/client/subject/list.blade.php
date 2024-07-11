@@ -34,14 +34,13 @@
 @endsection
 
 @section('content')
-    <form class="courses-search search-2" action="{{ route('client.menu') }}" method="POST">
+    <form class="courses-search search-2" action="{{ route('client.menu') }}" method="GET">
         @csrf
-        @method("GET")
         <input type="text" placeholder="Tìm kiếm môn học" name="name">
         <button type="submit"><i class="icofont-search"></i></button>
     </form>
 
-    <div class="courses-wrapper-02">
+    <div class="courses-wrapper-02 mb-5">
         <div class="row">
             @foreach ($subjects as $item)
                 <div class="col-lg-4 col-md-6">
@@ -62,4 +61,10 @@
             @endforeach
         </div>
     </div>
+
+    @if (
+        $subjects instanceof Illuminate\Pagination\LengthAwarePaginator ||
+            $subjects instanceof Illuminate\Pagination\Paginator)
+        {{ $subjects->links() }}
+    @endif
 @endsection

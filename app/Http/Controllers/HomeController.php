@@ -18,7 +18,7 @@ class HomeController extends Controller
         if ($request->name) {
             $subjects = Subject::where("name", "like", "%" . $request->name . "%")->get();
         } else {
-            $subjects = Subject::latest("id")->take(6)->get();
+            $subjects = Subject::latest("id")->paginate(6);
         }
         $count_res = UserSubject::selectRaw('subject_id, COUNT(user_id) as total')
             ->groupBy('subject_id')
@@ -31,7 +31,7 @@ class HomeController extends Controller
         if ($request->name) {
             $subjects = Subject::where("name", "like", "%" . $request->name . "%")->get();
         } else {
-            $subjects = Subject::latest("id")->get();
+            $subjects = Subject::latest("id")->paginate(6);
         }
         return view('client.subject.list', compact("subjects"));
     }
@@ -51,7 +51,7 @@ class HomeController extends Controller
         if ($request->name) {
             $exams = Exam::where("name", "like", "%" . $request->name . "%")->with("subject")->get();
         } else {
-            $exams = Exam::latest("id")->with("subject")->get();
+            $exams = Exam::latest("id")->with("subject")->paginate(3);
         }
 
         $get_user_subject = UserSubject::where('user_id', $id_user)->get()->keyBy('subject_id');

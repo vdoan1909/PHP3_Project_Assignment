@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div class="nav flex-column nav-pills admin-tab-menu overflow-auto">
+    <div style="height: 760px;" class="nav flex-column nav-pills admin-tab-menu">
         @foreach ($subjects as $subject)
             <a href="{{ route('client.exams.examBySubject', $subject->slug) }}">
                 {{ $subject->name }}
@@ -28,7 +28,7 @@
                 </div>
             </div>
 
-            <div class="engagement-courses table-responsive">
+            <div class="engagement-courses table-responsive mb-4">
                 <div class="courses-top">
                     <ul>
                         <li>Tên</li>
@@ -84,6 +84,13 @@
                     </ul>
                 </div>
             </div>
+
+            @if (
+                $subjects instanceof Illuminate\Pagination\LengthAwarePaginator ||
+                    $subjects instanceof Illuminate\Pagination\Paginator)
+                {{ $exams->links() }}
+            @endif
+
         </div>
     </div>
 @endsection
