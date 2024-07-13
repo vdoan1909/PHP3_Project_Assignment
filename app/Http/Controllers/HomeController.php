@@ -18,7 +18,7 @@ class HomeController extends Controller
         if ($request->name) {
             $subjects = Subject::where("name", "like", "%" . $request->name . "%")->get();
         } else {
-            $subjects = Subject::latest("id")->paginate(6);
+            $subjects = Subject::latest("id")->take(6)->get();
         }
         $count_res = UserSubject::selectRaw('subject_id, COUNT(user_id) as total')
             ->groupBy('subject_id')

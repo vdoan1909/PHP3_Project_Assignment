@@ -86,8 +86,8 @@
             </div>
 
             @if (
-                $subjects instanceof Illuminate\Pagination\LengthAwarePaginator ||
-                    $subjects instanceof Illuminate\Pagination\Paginator)
+                $exams instanceof Illuminate\Pagination\LengthAwarePaginator ||
+                    $exams instanceof Illuminate\Pagination\Paginator)
                 {{ $exams->links() }}
             @endif
 
