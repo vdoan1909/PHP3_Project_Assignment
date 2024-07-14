@@ -42,6 +42,10 @@
     </div>
 
     @yield('toast')
+
+    <script src="https://www.gstatic.com/dialogflow-console/fast/messenger/bootstrap.js?v=1"></script>
+    <df-messenger intent="WELCOME" chat-title="E-Learning" agent-id="1cf5177b-a710-4799-9034-7be2812f14af"
+        language-code="vi"></df-messenger>
 </body>
 <!-- Modernizer & jQuery JS -->
 <script src="{{ asset('theme/client/assets/js/vendor/modernizr-3.11.2.min.js') }}"></script>
