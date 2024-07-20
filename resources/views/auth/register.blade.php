@@ -60,10 +60,12 @@
                         <div class="register-login-form">
                             <h3 class="title">Đăng ký <span>Ngay</span></h3>
                             <div class="form-wrapper">
-                                <form method="POST" action="{{ route('register') }}">
+                                <form method="POST" action="{{ route('register') }}" novalidate>
                                     @csrf
                                     <div class="single-form">
-                                        <input type="text" placeholder="Họ tên" name="name">
+                                        <input id="name" type="text" placeholder="Họ tên"
+                                            class="@error('name') is-invalid @enderror" name="name"
+                                            value="{{ old('name') }}" required autocomplete="name" autofocus>
                                         @error('name')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -71,7 +73,9 @@
                                         @enderror
                                     </div>
                                     <div class="single-form">
-                                        <input type="email" placeholder="Email" name="email">
+                                        <input id="email" type="email" placeholder="Email"
+                                            class="@error('email') is-invalid @enderror" name="email"
+                                            value="{{ old('email') }}" required autocomplete="email">
                                         @error('email')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -79,7 +83,9 @@
                                         @enderror
                                     </div>
                                     <div class="single-form">
-                                        <input type="password" placeholder="Mật khẩu" name="password">
+                                        <input id="password" type="password" placeholder="Mật khẩu"
+                                            class="@error('password') is-invalid @enderror" name="password" required
+                                            autocomplete="new-password">
                                         @error('password')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -87,7 +93,8 @@
                                         @enderror
                                     </div>
                                     <div class="single-form">
-                                        <input type="password" placeholder="Xác nhận mật khẩu" name="password_confirmation">
+                                        <input id="password-confirm" type="password" placeholder="Xác nhận mật khẩu"
+                                            name="password_confirmation" required autocomplete="new-password">
                                         @error('password_confirmation')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
