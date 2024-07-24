@@ -62,7 +62,7 @@
                             <h3 class="title">Đăng nhập <span>Ngay</span></h3>
 
                             <div class="form-wrapper">
-                                <form method="POST" action="{{ route('login') }}">
+                                <form method="POST" action="{{ route('login') }}" novalidate>
                                     @csrf
                                     <div class="single-form">
                                         <input id="email" type="email" placeholder="Email"
