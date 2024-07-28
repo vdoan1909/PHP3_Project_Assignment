@@ -49,7 +49,6 @@
                                 <img src="{{ asset('theme/client/assets/images/shape/shape-26.png') }}" alt="Shape">
                             </div>
 
-
                             <div class="images">
                                 <img src="{{ asset('theme/client/assets/images/register-login.png') }}"
                                     alt="Register Login">
@@ -63,8 +62,8 @@
                                 <form method="POST" action="{{ route('register') }}" novalidate>
                                     @csrf
                                     <div class="single-form">
-                                        <input id="name" type="text" placeholder="Họ tên"
-                                            class="@error('name') is-invalid @enderror" name="name"
+                                        <input id="name" type="text"
+                                            placeholder="Họ tên"class="@error('name') is-invalid @enderror" name="name"
                                             value="{{ old('name') }}" required autocomplete="name" autofocus>
                                         @error('name')
                                             <span class="invalid-feedback" role="alert">
@@ -75,7 +74,7 @@
                                     <div class="single-form">
                                         <input id="email" type="email" placeholder="Email"
                                             class="@error('email') is-invalid @enderror" name="email"
-                                            value="{{ old('email') }}" required autocomplete="email">
+                                            value="{{ old('email') }}" required autocomplete="email" autofocus>
                                         @error('email')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -83,9 +82,8 @@
                                         @enderror
                                     </div>
                                     <div class="single-form">
-                                        <input id="password" type="password" placeholder="Mật khẩu"
-                                            class="@error('password') is-invalid @enderror" name="password" required
-                                            autocomplete="new-password">
+                                        <input id="password" type="password" placeholder="Mật khẩu"  class="@error('password') is-invalid @enderror" name="password"
+                                        value="{{ old('password') }}" required autocomplete="password" autofocus>
                                         @error('password')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -93,8 +91,7 @@
                                         @enderror
                                     </div>
                                     <div class="single-form">
-                                        <input id="password-confirm" type="password" placeholder="Xác nhận mật khẩu"
-                                            name="password_confirmation" required autocomplete="new-password">
+                                        <input type="password" placeholder="Xác nhận mật khẩu" name="password_confirmation">
                                         @error('password_confirmation')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>

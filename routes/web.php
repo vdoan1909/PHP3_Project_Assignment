@@ -5,12 +5,10 @@ use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\ExamController;
 use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\UserSubjectController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
-
-Auth::routes();
 
 Route::prefix("admin")
     ->as("admin.")
@@ -82,3 +80,17 @@ Route::prefix("/")
             });
     });
 
+
+Route::get('register', [AuthController::class, 'showRegistrationForm'])->name('register');
+Route::post('register', [AuthController::class, 'register']);
+
+Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('login', [AuthController::class, 'login']);
+
+Route::post('logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::get('password/reset', [AuthController::class, 'showRequestForm'])->name('password.request');
+Route::post('password/email', [AuthController::class, 'sendResetEmail'])->name('password.email');
+
+Route::get('auth/google', [AuthController::class, 'redirect'])->name('google-auth');
+Route::get('auth/google/call-back', [AuthController::class, 'callBackGoogle']);

@@ -84,10 +84,17 @@
                                             </span>
                                         @enderror
                                     </div>
+                                    <div class="single-form d-flex justify-content-between align-items-center">
+                                        <a href="{{ route('password.request') }}">Quên mật khẩu ?</a>
+                                        <div class="single-form d-flex align-items-center">
+                                            <input style="display: block;" type="checkbox" name="remember" id="remember">
+                                            <label for="remember">Nhớ đăng nhập</label>
+                                        </div>
+                                    </div>
                                     <div class="single-form">
                                         <button class="btn btn-primary btn-hover-dark w-100">Đăng nhập</button>
                                         <a class="btn btn-secondary btn-outline w-100"
-                                            href="{{ route('password.request') }}">Quên mật khẩu</a>
+                                            href="{{ route('google-auth') }}">Login with Google</a>
                                     </div>
                                 </form>
                             </div>

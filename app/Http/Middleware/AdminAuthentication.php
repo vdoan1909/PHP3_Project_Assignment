@@ -9,11 +9,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class AdminAuthentication
 {
-    public function handle(Request $request, Closure $next): Response
+    public function handle($request, Closure $next)
     {
-        if (Auth::user()->role != "admin") {
-            return redirect()->route('client.index');
+        if (Auth::check() && Auth::user()->role == 'admin') {
+            return $next($request);
         }
-        return $next($request);
+
+        return redirect()->route('client.index');
     }
+
 }
