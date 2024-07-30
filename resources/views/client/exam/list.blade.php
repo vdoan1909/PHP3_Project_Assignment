@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    <div style="height: 760px;" class="nav flex-column nav-pills admin-tab-menu">
+    <div style="height: auto;" class="nav flex-column nav-pills admin-tab-menu">
         @foreach ($subjects as $subject)
             <a href="{{ route('client.exams.examBySubject', $subject->slug) }}">
                 {{ $subject->name }}

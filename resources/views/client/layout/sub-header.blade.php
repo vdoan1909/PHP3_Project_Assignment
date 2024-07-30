@@ -17,11 +17,10 @@
                     </button>
                 </form>
             </div>
-
         </div>
 
         <div class="login-header-action ml-auto">
-            <a class="action author" href="#">
+            <a class="action author" href="{{ route('chatify') }}">
                 <img src="https://inacademia.org/wp-content/uploads/2023/01/new-default-image-icon.png" alt="Author">
             </a>
         </div>

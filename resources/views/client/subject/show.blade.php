@@ -47,7 +47,7 @@
             <div class="sidebar">
                 <div class="sidebar-widget widget-information">
                     <div class="info-price">
-                        <p class="text-start">{{ $subject->description }}</p>
+                        <p class="text-start">{{ Str::limit($subject->description, 369) }}</p>
                     </div>
                     <form class="info-btn mt-3" action="{{ route('client.subjects.store') }}" method="POST">
                         @csrf

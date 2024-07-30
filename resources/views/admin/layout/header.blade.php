@@ -62,9 +62,9 @@
                     <div class="dropdown-menu dropdown-menu-end">
                         <!-- item-->
                         <h6 class="dropdown-header">Chào mừng {{ Auth::User()->name }}!</h6>
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="{{ route('chatify') }}">
                             <i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i>
-                            <span class="align-middle">Profile</span>
+                            <span class="align-middle">Chat</span>
                         </a>
 
                         <div class="dropdown-divider"></div>
@@ -74,9 +74,16 @@
                             <span class="align-middle">Settings</span>
                         </a>
 
-                        <a class="dropdown-item" href="{{ route('client.index') }}">
+                        <a class="dropdown-item" href="{{ route('logout') }}"
+                            onclick="event.preventDefault();
+                        document.getElementById('logout-form').submit();">
+
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                @csrf
+                            </form>
+
                             <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
-                            <span class="align-middle" data-key="t-logout">Về trang người dùng</span>
+                            <span class="align-middle" data-key="t-logout">Logout</span>
                         </a>
                     </div>
                 </div>

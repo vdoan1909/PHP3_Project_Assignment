@@ -4,9 +4,11 @@ namespace App\Providers;
 
 use App\Events\ForgetPassword;
 use App\Events\QuizCompleted;
+use App\Events\RegisterCompleted;
 use App\Events\ResetPassword;
 use App\Listeners\ForgetPasswordNotification;
 use App\Listeners\QuizCompletedNotification;
+use App\Listeners\RegisterCompletedNotification;
 use App\Listeners\ResetPasswordNotification;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -26,6 +28,10 @@ class EventServiceProvider extends ServiceProvider
 
         ForgetPassword::class => [
             ForgetPasswordNotification::class
+        ],
+
+        RegisterCompleted::class => [
+            RegisterCompletedNotification::class
         ]
     ];
 

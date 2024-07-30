@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Events\ForgetPassword;
+use App\Events\RegisterCompleted;
 use App\Models\PasswordReset;
 use App\Models\User;
 use Carbon\Carbon;
@@ -75,6 +76,10 @@ class AuthController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
+        if ($user) {
+            RegisterCompleted::dispatch(["username" => $request->name, "email" => $request->email]);
+        }
+
         Auth::login($user);
 
         return redirect()->route('client.index');
@@ -138,11 +143,6 @@ class AuthController extends Controller
         );
 
         ForgetPassword::dispatch(['token' => $token, 'email' => $request->email]);
-
-        // Mail::send('mail.forget-password', ["token" => $token, "email" => $request->email,], function ($message) use ($request) {
-        //     $message->to($request->email);
-        //     $message->subject("Quên mật khẩu");
-        // });
 
         return back()->with("success", "Bạn hãy kiểm tra email của mình");
     }

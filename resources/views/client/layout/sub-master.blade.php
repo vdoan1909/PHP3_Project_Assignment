@@ -28,7 +28,7 @@
         @include('client.layout.sub-header')
 
         <div class="section overflow-hidden position-relative" id="wrapper">
-            <div class="page-content-wrapper py-0">
+            <div class="page-content-wrapper py-0" style="overflow: auto">
                 @yield('content')
             </div>
         </div>
