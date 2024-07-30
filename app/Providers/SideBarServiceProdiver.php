@@ -24,7 +24,7 @@ class SideBarServiceProdiver extends ServiceProvider
                     'name' => 'Subjects',
                     'routeName' => "subjects",
                 ],
-                
+
                 [
                     'id' => 'exam',
                     'icon' => 'ri-timer-fill',
@@ -37,7 +37,21 @@ class SideBarServiceProdiver extends ServiceProvider
                     'icon' => 'ri-questionnaire-fill',
                     'name' => 'Questions',
                     'routeName' => "questions",
-                ]
+                ],
+
+                [
+                    'id' => 'user',
+                    'icon' => 'ri-file-user-fill',
+                    'name' => 'Users',
+                    'routeName' => "users",
+                ],
+
+                [
+                    'id' => 'manager',
+                    'icon' => ' ri-admin-fill',
+                    'name' => 'Managers',
+                    'routeName' => "managers",
+                ],
             ];
 
 

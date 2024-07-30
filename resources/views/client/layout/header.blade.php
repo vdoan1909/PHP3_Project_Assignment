@@ -4,8 +4,8 @@
             <div class="header-top-wrapper">
                 <div class="header-top-medal">
                     <div class="top-info">
-                        <p><i class="flaticon-phone-call"></i> <a href="tel:924794577">0924 794 577</a></p>
-                        <p><i class="flaticon-email"></i> <a href="mailto:openaivdoan@gmail.com">openaivdoan@gmail.com</a>
+                        <p><i class="flaticon-phone-call"></i> <a href="tel:924794577">0333 666 999</a></p>
+                        <p><i class="flaticon-email"></i> <a href="mailto:openaivdoan@gmail.com">uocmolahinhsu@gmail.com</a>
                         </p>
                     </div>
                 </div>

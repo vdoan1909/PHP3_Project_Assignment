@@ -3,7 +3,9 @@
 use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\SubjectController;
 use App\Http\Controllers\Admin\ExamController;
+use App\Http\Controllers\Admin\ManagerController;
 use App\Http\Controllers\Admin\QuestionController;
+use App\Http\Controllers\Admin\UserManageController;
 use App\Http\Controllers\Admin\UserSubjectController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
@@ -47,6 +49,30 @@ Route::prefix("admin")
                 Route::get("edit/{question}", [QuestionController::class, "edit"])->name("edit");
                 Route::put("update/{question}", [QuestionController::class, "update"])->name("update");
                 Route::delete("destroy/{question}", [QuestionController::class, "destroy"])->name("destroy");
+            });
+
+        Route::prefix("user")
+            ->as("users.")
+            ->group(function () {
+                Route::get("/", [UserManageController::class, "index"])->name("index");
+                Route::get("create", [UserManageController::class, "create"])->name("create");
+                Route::post("store", [UserManageController::class, "store"])->name("store");
+                Route::get("change-admin/{id}", [UserManageController::class, "changeAdmin"])->name("change.admin");
+                Route::get("edit/{id}", [UserManageController::class, "edit"])->name("edit");
+                Route::put("update/{id}", [UserManageController::class, "update"])->name("update");
+                Route::delete("destroy/{id}", [UserManageController::class, "destroy"])->name("destroy");
+            });
+
+        Route::prefix("manager")
+            ->as("managers.")
+            ->group(function () {
+                Route::get("/", [ManagerController::class, "index"])->name("index");
+                Route::get("create", [ManagerController::class, "create"])->name("create");
+                Route::post("store", [ManagerController::class, "store"])->name("store");
+                Route::get("change-user/{id}", [ManagerController::class, "changeUser"])->name("change.user");
+                Route::get("edit/{id}", [ManagerController::class, "edit"])->name("edit");
+                Route::put("update/{id}", [ManagerController::class, "update"])->name("update");
+                Route::delete("destroy/{id}", [ManagerController::class, "destroy"])->name("destroy");
             });
     });
 
