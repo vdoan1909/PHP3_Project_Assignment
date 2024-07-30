@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\ForgetPassword;
 use App\Events\QuizCompleted;
 use App\Events\ResetPassword;
+use App\Listeners\ForgetPasswordNotification;
 use App\Listeners\QuizCompletedNotification;
 use App\Listeners\ResetPasswordNotification;
 use Illuminate\Auth\Events\Registered;
@@ -21,6 +23,10 @@ class EventServiceProvider extends ServiceProvider
         QuizCompleted::class => [
             QuizCompletedNotification::class
         ],
+
+        ForgetPassword::class => [
+            ForgetPasswordNotification::class
+        ]
     ];
 
     public function boot(): void

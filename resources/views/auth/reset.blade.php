@@ -62,7 +62,7 @@
                             <h3 class="title">Quên <span>Mật Khẩu</span></h3>
 
                             <div class="form-wrapper">
-                                <form method="POST" action="{{ route('password.email') }}" novalidate>
+                                <form method="POST" action="{{ route('forget.password.post') }}" novalidate>
                                     @csrf
                                     <div class="single-form">
                                         <input id="email" type="email" placeholder="Email"
@@ -74,7 +74,7 @@
                                             </span>
                                         @enderror
                                     </div>
-                                    
+
                                     <div class="single-form">
                                         <button class="btn btn-primary btn-hover-dark w-100">Gửi</button>
                                     </div>
@@ -86,4 +86,35 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('toast')
+    @if (session('success'))
+        <script>
+            window.onload = function() {
+                swal({
+                    title: "{{ session('success') }}",
+                    icon: "success"
+                });
+            };
+        </script>
+
+        @php
+            Session::forget('success');
+        @endphp
+    @endif
+
+    @if (session('error'))
+        <script>
+            window.onload = function() {
+                swal({
+                    title: "{{ session('error') }}",
+                    icon: "error"
+                });
+            };
+        </script>
+        @php
+            Session::forget('error');
+        @endphp
+    @endif
 @endsection

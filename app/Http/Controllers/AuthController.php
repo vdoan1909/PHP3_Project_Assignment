@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ForgetPassword;
+use App\Models\PasswordReset;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -63,6 +66,7 @@ class AuthController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:8',
+            'password_confirmation' => 'required|string|min:8|same:password',
         ]);
 
         $user = User::create([
@@ -110,30 +114,72 @@ class AuthController extends Controller
         return redirect()->route('login');
     }
 
-    public function showRequestForm()
+    public function forgetPassword()
     {
-        return view('auth.reset');
+        return view("auth.reset");
     }
 
-    public function sendResetEmail(Request $request)
+    public function forgetPasswordPost(Request $request)
     {
-        $request->validate(['email' => 'required|email']);
+        $request->validate(
+            [
+                "email" => "required|email|exists:users",
+            ]
+        );
 
-        $user = User::where('email', $request->email)->first();
+        $token = Str::random(64);
 
-        if ($user) {
-            $newPassword = Str::random(8);
-            $user->password = bcrypt($newPassword);
-            $user->save();
+        PasswordReset::create(
+            [
+                "email" => $request->email,
+                "token" => $token,
+                "created_at" => Carbon::now()
+            ]
+        );
 
-            Mail::send('mail.reset-password', ['newPassword' => $newPassword], function ($message) use ($request) {
-                $message->to($request->email);
-                $message->subject('Your New Password');
-            });
+        ForgetPassword::dispatch(['token' => $token, 'email' => $request->email]);
 
-            return back()->with('status', 'A new password has been sent to your email address.');
+        // Mail::send('mail.forget-password', ["token" => $token, "email" => $request->email,], function ($message) use ($request) {
+        //     $message->to($request->email);
+        //     $message->subject("Quên mật khẩu");
+        // });
+
+        return back()->with("success", "Bạn hãy kiểm tra email của mình");
+    }
+
+    public function resetPassword($token, $email)
+    {
+        return view("auth.new-password", compact("token", "email"));
+    }
+
+    public function resetPasswordPost(Request $request)
+    {
+        // dd($request->all());
+        $request->validate(
+            [
+                "email" => "required|email|exists:users",
+                'password' => 'required|string|min:8',
+                'password_confirmation' => 'required|string|min:8|same:password',
+            ]
+        );
+
+        $password_reset = PasswordReset::where(
+            [
+                "email" => $request->email,
+                "token" => $request->token,
+            ]
+        )->first();
+
+        if (!$password_reset) {
+            return redirect()->route("reset.password")->with("error", "Đã có lỗi xảy ra");
         }
 
-        return back()->withErrors(['email' => 'This email address is not registered in our system.']);
+        $pass_hash = bcrypt($request->password);
+
+        User::where("email", $request->email)->update(["password" => $pass_hash]);
+
+        PasswordReset::where("email", $request->email)->delete();
+
+        return redirect()->route("login")->with("success", "Cập nhật mật khẩu thành công, hãy đăng nhập");
     }
 }

@@ -82,8 +82,9 @@
                                         @enderror
                                     </div>
                                     <div class="single-form">
-                                        <input id="password" type="password" placeholder="Mật khẩu"  class="@error('password') is-invalid @enderror" name="password"
-                                        value="{{ old('password') }}" required autocomplete="password" autofocus>
+                                        <input id="password" type="password" placeholder="Mật khẩu"
+                                            class="@error('password') is-invalid @enderror" name="password"
+                                            value="{{ old('password') }}" required autocomplete="password" autofocus>
                                         @error('password')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>
@@ -91,7 +92,9 @@
                                         @enderror
                                     </div>
                                     <div class="single-form">
-                                        <input type="password" placeholder="Xác nhận mật khẩu" name="password_confirmation">
+                                        <input id="password_confirmation" type="password" placeholder="Xác nhận mật khẩu"
+                                            class="@error('password_confirmation') is-invalid @enderror" name="password_confirmation"
+                                            value="{{ old('password_confirmation') }}" required autocomplete="password_confirmation" autofocus>
                                         @error('password_confirmation')
                                             <span class="invalid-feedback" role="alert">
                                                 <strong>{{ $message }}</strong>

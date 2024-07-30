@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('time_limit');
             $table->integer('number_of_questions');
             $table->text('description');
-            $table->foreignIdFor(Subject::class)->constrained();
+            $table->foreignIdFor(Subject::class)->constrained()->onDelete('cascade');
             $table->string('slug');
             $table->timestamps();
         });
