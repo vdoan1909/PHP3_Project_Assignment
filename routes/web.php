@@ -61,6 +61,9 @@ Route::prefix("admin")
                 Route::get("edit/{id}", [UserManageController::class, "edit"])->name("edit");
                 Route::put("update/{id}", [UserManageController::class, "update"])->name("update");
                 Route::delete("destroy/{id}", [UserManageController::class, "destroy"])->name("destroy");
+
+                Route::get("view-achievement/{id}", [UserManageController::class, "viewAchievement"])->name("view.achievement");
+                Route::get('user/export/{user_id}', [UserManageController::class, 'export'])->name("export.achievement");
             });
 
         Route::prefix("manager")

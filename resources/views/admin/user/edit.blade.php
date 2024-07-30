@@ -57,6 +57,29 @@
 
                                 <div class="col-md-4">
                                     <div>
+                                        <label for="password" class="form-label">Password</label>
+                                        <input type="text" class="form-control" id="password" name="password">
+                                        @error('password')
+                                            <p class="mt-2 text-danger">
+                                                {{ $message }}
+                                            </p>
+                                        @enderror
+                                    </div>
+
+                                    <div class="mt-3">
+                                        <label for="password_confirmation" class="form-label">Confirm Password</label>
+                                        <input type="text" class="form-control" id="password_confirmation"
+                                            name="password_confirmation">
+                                        @error('password_confirmation')
+                                            <p class="mt-2 text-danger">
+                                                {{ $message }}
+                                            </p>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="col-md-4">
+                                    <div>
                                         <label for="role" class="form-label">Role</label>
                                         <input type="text" class="form-control" id="role" name="role"
                                             value="member" readonly>

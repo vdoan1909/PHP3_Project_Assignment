@@ -50,7 +50,7 @@ class ManagerController extends Controller
             ["role" => "member"]
         );
 
-        return redirect()->route("admin.users.index");
+        return redirect()->route("admin.users.index")->with("success", "Change user successfully");
     }
 
     public function edit(string $id)
@@ -63,10 +63,14 @@ class ManagerController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'password' => 'required|string|min:8',
+            'password_confirmation' => 'required|string|min:8|same:password',
         ]);
 
         $user = User::where('id', $id)->update([
             'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
         ]);
 
         return redirect()->route('admin.users.index')->with("success", "Edit manager successfully");

@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Events\RegisterCompleted;
+use App\Exports\UserExamExport;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use App\Models\UserExam;
+use App\Exports\UsersExport;
+use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Http\Request;
 
 class UserManageController extends Controller
@@ -50,7 +54,7 @@ class UserManageController extends Controller
             ["role" => "admin"]
         );
 
-        return redirect()->route("admin.managers.index");
+        return redirect()->route("admin.managers.index")->with("success", "Change user successfully");
     }
 
     public function edit(string $id)
@@ -63,15 +67,18 @@ class UserManageController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'password' => 'required|string|min:8',
+            'password_confirmation' => 'required|string|min:8|same:password',
         ]);
 
         $user = User::where('id', $id)->update([
             'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt($request->password),
         ]);
 
         return redirect()->route('admin.users.index')->with("success", "Edit user successfully");
     }
-
 
     public function destroy(string $id)
     {
@@ -79,5 +86,21 @@ class UserManageController extends Controller
         $user->delete();
 
         return redirect()->route("admin.users.index")->with("success", "Delete user successfully");
+    }
+
+    public function viewAchievement($id)
+    {
+        $user = User::where("id", $id)->select("id", "name")->first();
+        $user_achievement = UserExam::where("user_id", $id)->with(["user", "exam"])->get();
+        // dd($user_achievement->toArray());
+
+        return view(self::PATH_VIEW . __FUNCTION__, compact("user_achievement", "user"));
+    }
+
+    public function export($user_id)
+    {
+        $user = User::where("id", $user_id)->first();
+        $filename = "{$user->name}.xlsx";
+        return Excel::download(new UserExamExport($user_id), $filename);
     }
 }

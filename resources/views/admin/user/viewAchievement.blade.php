@@ -1,7 +1,11 @@
+@php
+    use Carbon\Carbon;
+@endphp
+
 @extends('admin.layout.master')
 
 @section('title')
-    List User
+    {{ $user->name }}
 @endsection
 
 @section('style-libs')
@@ -17,9 +21,12 @@
     <div class="row">
         <div class="col-12">
             <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                <h4 class="mb-sm-0">Users</h4>
+                <h4 class="mb-sm-0">{{ $user->name }}</h4>
 
-                <a href="{{ Route('admin.users.create') }}" class="btn btn-primary">Create a new user</a>
+                @if (!$user_achievement->isEmpty())
+                    <a href="{{ Route('admin.users.export.achievement', $user->id) }}" class="btn btn-primary">Export
+                        achievement</a>
+                @endif
             </div>
         </div>
     </div>
@@ -28,75 +35,26 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h5 class="card-title mb-0">List User</h5>
+                    <h5 class="card-title mb-0">Your Achievement</h5>
                 </div>
                 <div class="card-body">
                     <table id="example" class="table table-bordered dt-responsive nowrap table-striped align-middle"
                         style="width:100%">
                         <thead>
                             <tr>
-                                <th width="10px">ID</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Role</th>
-                                <th width="10px">Manage</th>
+                                <th>Exam Name</th>
+                                <th>Score</th>
+                                <th>Start at</th>
+                                <th>Redo at</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data as $item)
+                            @foreach ($user_achievement as $item)
                                 <tr class="text-start">
-                                    <td>{{ $item->id }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->email }}</td>
-                                    <td>
-                                        <span class="badge bg-primary">{{ strtoupper($item->role) }}</span>
-                                    </td>
-                                    <td>
-                                        <div class="dropdown d-inline-block">
-                                            <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
-                                                data-bs-toggle="dropdown" aria-expanded="false">
-                                                <i class="ri-more-fill align-middle"></i>
-                                            </button>
-                                            <ul class="dropdown-menu dropdown-menu-end">
-                                                <li>
-                                                    <a href="{{ Route('admin.users.view.achievement', $item->id) }}"
-                                                        class="dropdown-item edit-item-btn">
-                                                        <i class="ri-code-view align-bottom me-2 text-muted"></i>
-                                                        View Achievement
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="{{ Route('admin.users.change.admin', $item->id) }}"
-                                                        class="dropdown-item edit-item-btn">
-                                                        <i class="ri-switch-line align-bottom me-2 text-muted"></i>
-                                                        Change To Admin
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <a href="{{ Route('admin.users.edit', $item->id) }}"
-                                                        class="dropdown-item edit-item-btn">
-                                                        <i class="ri-pencil-fill align-bottom me-2 text-muted"></i>
-                                                        Edit
-                                                    </a>
-                                                </li>
-
-                                                <li>
-                                                    <form action="{{ route('admin.users.destroy', $item->id) }}"
-                                                        method="POST">
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="submit" class="dropdown-item remove-item-btn"
-                                                            onclick="return confirm('Bạn có chắc không?')">
-                                                            <i class="ri-delete-bin-fill align-bottom me-2 text-muted"></i>
-                                                            Delete
-                                                        </button>
-                                                    </form>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </td>
+                                    <td>{{ $item->exam->name }}</td>
+                                    <td>{{ $item->score }}</td>
+                                    <td>{{ Carbon::parse($item->created_at)->format('H:i d/m/Y') }}</td>
+                                    <td>{{ Carbon::parse($item->updated_at)->format('H:i d/m/Y') }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
