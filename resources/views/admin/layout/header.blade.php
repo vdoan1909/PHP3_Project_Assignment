@@ -69,21 +69,14 @@
 
                         <div class="dropdown-divider"></div>
 
-                        <a class="dropdown-item" href="#">
+                        <a class="dropdown-item" href="pages-profile-settings.html">
                             <i class="mdi mdi-cog-outline text-muted fs-16 align-middle me-1"></i>
                             <span class="align-middle">Settings</span>
                         </a>
 
-                        <a class="dropdown-item" href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                        document.getElementById('logo   ut-form').submit();">
-
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-                                @csrf
-                            </form>
-
+                        <a class="dropdown-item" href="{{ route('client.index') }}">
                             <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
-                            <span class="align-middle" data-key="t-logout">Logout</span>
+                            <span class="align-middle" data-key="t-logout">Về trang người dùng</span>
                         </a>
                     </div>
                 </div>

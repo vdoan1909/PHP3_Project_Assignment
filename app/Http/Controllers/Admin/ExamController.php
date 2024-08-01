@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ExamCreateRequest;
+use App\Http\Requests\ExamUpdateRequest;
 use App\Models\Exam;
 use App\Models\Subject;
 use Illuminate\Http\Request;
@@ -25,7 +27,7 @@ class ExamController extends Controller
         return view(self::PATH_VIEW . __FUNCTION__, compact("subjects"));
     }
 
-    public function store(Request $request)
+    public function store(ExamCreateRequest $request)
     {
         $data = $request->all();
 
@@ -35,16 +37,6 @@ class ExamController extends Controller
             $randomCharacters .= $rann[array_rand($rann)];
         }
         $data["slug"] = Str::slug($data["name"]) . "-" . $randomCharacters;
-
-        $request->validate(
-            [
-                "name" => "required|unique:exams,name",
-                "time_limit" => "required|numeric",
-                "number_of_questions" => "required|numeric",
-                "subject_id" => "required",
-                "description" => "required"
-            ]
-        );
 
         $is_create = Exam::create($data);
 
@@ -62,11 +54,15 @@ class ExamController extends Controller
         return view(self::PATH_VIEW . __FUNCTION__, compact("exam", "subjects"));
     }
 
-    public function update(Request $request, string $slug)
+    public function update(ExamUpdateRequest $request, string $slug)
     {
+
         $exam = Exam::where("slug", $slug)->firstOrFail();
+
+        // $request->setExamID($exam->id);
+
         $data = $request->all();
-        
+
         if ($data["name"]) {
             $rann = range('A', 'Z');
             $randomCharacters = '';
@@ -94,7 +90,7 @@ class ExamController extends Controller
     public function destroy(string $slug)
     {
         $exam = Exam::where("slug", $slug)->firstOrFail();
-        $exam->delete();    
+        $exam->delete();
 
         return redirect()->route("admin.exams.index")->with("success", "Delete exam successfully");
     }

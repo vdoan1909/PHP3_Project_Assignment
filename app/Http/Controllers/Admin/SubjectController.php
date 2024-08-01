@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SubjectCreateRequest;
+use App\Http\Requests\SubjectUpdateRequest;
 use App\Models\Subject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -24,7 +26,7 @@ class SubjectController extends Controller
         return view(self::PATH_VIEW . __FUNCTION__);
     }
 
-    public function store(Request $request)
+    public function store(SubjectCreateRequest $request)
     {
         $data = $request->except("image");
         $rann = range('A', 'Z');
@@ -33,14 +35,6 @@ class SubjectController extends Controller
             $randomCharacters .= $rann[array_rand($rann)];
         }
         $data["slug"] = Str::slug($data["name"]) . "-" . $randomCharacters;
-
-        $request->validate(
-            [
-                "name" => "required|unique:subjects,name",
-                "description" => "required",
-                "image" => "required|mimes:jpg,jpeg,webp,png",
-            ]
-        );
 
         if ($request->hasFile("image")) {
             $data["image"] = Storage::put(self::PATH_UPLOAD, $request->file("image"));
@@ -61,7 +55,7 @@ class SubjectController extends Controller
         return view(self::PATH_VIEW . __FUNCTION__, compact("subject"));
     }
 
-    public function update(Request $request, string $slug)
+    public function update(SubjectUpdateRequest $request, string $slug)
     {
         $subject = Subject::where("slug", $slug)->firstOrFail();
 
@@ -75,14 +69,6 @@ class SubjectController extends Controller
             }
             $data["slug"] = Str::slug($data["name"]) . "-" . $randomCharacters;
         }
-
-        $request->validate(
-            [
-                "name" => "required|unique:subjects,name," . $subject->id,
-                "description" => "required",
-                "image" => "mimes:jpg,jpeg,webp,png",
-            ]
-        );
 
         if ($request->hasFile("image")) {
             $data["image"] = Storage::put(self::PATH_UPLOAD, $request->file("image"));

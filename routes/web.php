@@ -51,7 +51,7 @@ Route::prefix("admin")
                 Route::delete("destroy/{question}", [QuestionController::class, "destroy"])->name("destroy");
             });
 
-        Route::prefix("user")
+            Route::prefix("user")
             ->as("users.")
             ->group(function () {
                 Route::get("/", [UserManageController::class, "index"])->name("index");

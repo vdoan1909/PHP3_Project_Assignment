@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <form class="form-group" action="{{ route('admin.subjects.store') }}" method="POST" enctype="multipart/form-data">
+    <form class="form-group" action="{{ route('admin.subjects.store') }}" method="POST" enctype="multipart/form-data" novalidate>
         @csrf
         <div class="row">
             <div class="col-12">

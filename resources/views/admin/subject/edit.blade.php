@@ -9,7 +9,7 @@
 
 @section('content')
     <form class="form-group" action="{{ route('admin.subjects.update', $subject->slug) }}" method="POST"
-        enctype="multipart/form-data">
+        enctype="multipart/form-data" novalidate>
         @csrf
         @method('PUT')
         <div class="row">

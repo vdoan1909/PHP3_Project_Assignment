@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\QuestionCreateRequest;
 use App\Imports\QuestionImport;
 use App\Models\Exam;
 use App\Models\Question;
@@ -26,13 +27,8 @@ class QuestionController extends Controller
         return view(self::PATH_VIEW . __FUNCTION__, compact("exams"));
     }
 
-    public function file(Request $request)
+    public function file(QuestionCreateRequest $request)
     {
-        $request->validate([
-            "exam_id" => "required",
-            "import_file" => ["required", "file"]
-        ]);
-
         $exam_id = $request->exam_id;
         $is_create = Excel::import(new QuestionImport($exam_id), $request->file('import_file'));
 
@@ -71,7 +67,6 @@ class QuestionController extends Controller
 
     public function destroy(Question $question)
     {
-        $question->delete();
-        return back()->with("success", "Delete subject successfully");
+        //
     }
 }

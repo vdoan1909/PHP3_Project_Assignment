@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Events\RegisterCompleted;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ManagerCreateRequest;
+use App\Http\Requests\ManagerUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -22,26 +23,18 @@ class ManagerController extends Controller
         return view(self::PATH_VIEW . __FUNCTION__);
     }
 
-    public function store(Request $request)
+    public function store(ManagerCreateRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'password_confirmation' => 'required|string|min:8|same:password',
-        ]);
+        // dd($request->all());
 
-        $user = User::create([
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'role' => $request->role
         ]);
 
-        if ($user) {
-            RegisterCompleted::dispatch(["username" => $request->name, "email" => $request->email]);
-        }
-
-        return redirect()->route('admin.users.index')->with("success", "Create manager successfully");
+        return redirect()->route('admin.managers.index')->with("success", "Create manager successfully");
     }
 
     public function changeUser($id)
@@ -59,29 +52,25 @@ class ManagerController extends Controller
         return view(self::PATH_VIEW . __FUNCTION__, compact("model"));
     }
 
-    public function update(Request $request, string $id)
+    public function update(ManagerUpdateRequest $request, string $id)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'password' => 'required|string|min:8',
-            'password_confirmation' => 'required|string|min:8|same:password',
-        ]);
+        $user = User::where('id', $id)->first();
 
-        $user = User::where('id', $id)->update([
+        $user->update([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
+            'role' => $request->role
         ]);
 
-        return redirect()->route('admin.users.index')->with("success", "Edit manager successfully");
+        return redirect()->route('admin.managers.index')->with("success", "Edit manager successfully");
     }
-
 
     public function destroy(string $id)
     {
         $user = User::where("id", $id)->firstOrFail();
         $user->delete();
 
-        return redirect()->route("admin.users.index")->with("success", "Delete manager successfully");
+        return redirect()->route("admin.managers.index")->with("success", "Delete manager successfully");
     }
 }

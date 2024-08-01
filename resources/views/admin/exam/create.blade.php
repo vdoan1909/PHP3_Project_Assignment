@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <form class="form-group" action="{{ route('admin.exams.store') }}" method="POST">
+    <form class="form-group" action="{{ route('admin.exams.store') }}" method="POST" novalidate>
         @csrf
         <div class="row">
             <div class="col-12">

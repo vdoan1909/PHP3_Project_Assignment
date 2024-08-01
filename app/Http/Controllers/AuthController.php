@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Events\ForgetPassword;
 use App\Events\RegisterCompleted;
+use App\Http\Requests\AuthFogetPassRequest;
+use App\Http\Requests\AuthLoginRequest;
+use App\Http\Requests\AuthRegisterRequest;
 use App\Models\PasswordReset;
 use App\Models\User;
 use Carbon\Carbon;
@@ -61,15 +64,8 @@ class AuthController extends Controller
         return view('auth.register');
     }
 
-    public function register(Request $request)
+    public function register(AuthRegisterRequest $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8',
-            'password_confirmation' => 'required|string|min:8|same:password',
-        ]);
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -90,13 +86,8 @@ class AuthController extends Controller
         return view('auth.login');
     }
 
-    public function login(Request $request)
+    public function login(AuthLoginRequest $request)
     {
-        $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
-        ]);
-
         $email = $request->email;
         $password = $request->password;
         $remember = $request->remember;
@@ -110,7 +101,7 @@ class AuthController extends Controller
         }
         return redirect()->back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
-        ])->withInput();
+        ]);
     }
 
     public function logout()
@@ -124,14 +115,8 @@ class AuthController extends Controller
         return view("auth.reset");
     }
 
-    public function forgetPasswordPost(Request $request)
+    public function forgetPasswordPost(AuthFogetPassRequest $request)
     {
-        $request->validate(
-            [
-                "email" => "required|email|exists:users",
-            ]
-        );
-
         $token = Str::random(64);
 
         PasswordReset::create(
@@ -152,16 +137,9 @@ class AuthController extends Controller
         return view("auth.new-password", compact("token", "email"));
     }
 
-    public function resetPasswordPost(Request $request)
+    public function resetPasswordPost(AuthFogetPassRequest $request)
     {
         // dd($request->all());
-        $request->validate(
-            [
-                "email" => "required|email|exists:users",
-                'password' => 'required|string|min:8',
-                'password_confirmation' => 'required|string|min:8|same:password',
-            ]
-        );
 
         $password_reset = PasswordReset::where(
             [

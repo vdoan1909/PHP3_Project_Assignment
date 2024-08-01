@@ -8,13 +8,13 @@
 @endsection
 
 @section('content')
-    <form class="form-group" action="{{ route('admin.users.update', $model->id) }}" method="POST">
+    <form class="form-group" action="{{ route('admin.users.update', $model->id) }}" method="POST" novalidate>
         @csrf
         @method('PUT')
         <div class="row">
             <div class="col-12">
                 <div class="page-title-box d-sm-flex align-items-center justify-content-between">
-                    <h4 class="mb-sm-0">Create User</h4>
+                    <h4 class="mb-sm-0">Edit User</h4>
                 </div>
             </div>
         </div>
@@ -46,7 +46,7 @@
                                     <div class="mt-3">
                                         <label for="email" class="form-label">Email</label>
                                         <input type="text" class="form-control" id="email" name="email"
-                                            value="{{ $model->email }}" readonly>
+                                            value="{{ $model->email }}">
                                         @error('email')
                                             <p class="mt-2 text-danger">
                                                 {{ $message }}

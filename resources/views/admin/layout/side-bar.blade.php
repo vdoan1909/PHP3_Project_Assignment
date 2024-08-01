@@ -2,7 +2,7 @@
     <div class="container-fluid">
         <div id="two-column-menu">
         </div>
-
+        
         <ul class="navbar-nav" id="navbar-nav">
             <li class="menu-title"><span>Menu</span></li>
             <li class="nav-item">
@@ -11,6 +11,7 @@
                     <i class="ri-dashboard-2-line"></i> <span>Dashboards</span>
                 </a>
             </li>
+
 
             @foreach ($menuItems as $item)
                 <li class="nav-item">

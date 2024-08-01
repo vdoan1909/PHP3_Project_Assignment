@@ -66,7 +66,7 @@
                         </div>
                     </div>
                     <div class="col-xl-3 col-md-6">
-                        <!-- card -->
+                        <!-- card -->   
                         <div class="card card-animate">
                             <div class="card-body">
                                 <div class="d-flex align-items-center">
@@ -186,7 +186,7 @@
                                                     </td>
                                                     <td>
                                                         <p class="mb-0">
-                                                            {{ $exam->time_limit }}
+                                                            {{ $exam->time_limit}}
                                                         </p>
                                                         <span class="text-muted">Thời gian</span>
                                                     </td>

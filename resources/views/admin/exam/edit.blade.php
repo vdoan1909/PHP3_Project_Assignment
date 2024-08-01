@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <form class="form-group" action="{{ route('admin.exams.update', $exam->slug) }}" method="POST">
+    <form class="form-group" action="{{ route('admin.exams.update', $exam->slug) }}" method="POST" novalidate>
         @csrf
         @method('PUT')
         <div class="row">
