@@ -19,10 +19,17 @@
             </div>
         </div>
 
-        <div class="login-header-action ml-auto">
-            <a class="action author" href="{{ route('chatify') }}">
-                <img src="https://inacademia.org/wp-content/uploads/2023/01/new-default-image-icon.png" alt="Author">
-            </a>
-        </div>
+        @if (Auth::check())
+            <div class="login-header-action ml-auto">
+                <a class="action author" href="{{ route('chatify') }}">
+                    @if ($customer->avatar)
+                        <img src="{{ \Storage::url('users-avatar/' . $customer->avatar) }}" alt="Customer">
+                    @else
+                        <img src="https://inacademia.org/wp-content/uploads/2023/01/new-default-image-icon.png"
+                            alt="Customer">
+                    @endif
+                </a>
+            </div>
+        @endif
     </div>
 </div>

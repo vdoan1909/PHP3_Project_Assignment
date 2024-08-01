@@ -17,10 +17,44 @@
                 Vào trang quản trị
             </a>
         @endif
+        <a href="{{route("change")}}">
+            Đổi mật khẩu
+        </a>
     </div>
 
     <div class="main-content-wrapper">
         <div class="container-fluid">
+            <form method="POST" action="{{ route('client.customers.update.customer') }}" novalidate>
+                @csrf
+                <div class="d-flex gap-2">
+                    <div style="width: 50%;" class="single-form">
+                        <input id="name" type="text" placeholder="Tên người dùng"
+                            class="@error('name') is-invalid @enderror" name="name" value="{{ Auth::user()->name }}"
+                            required autocomplete="name" autofocus>
+                        @error('name')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+
+                    <div style="width: 50%;" class="single-form">
+                        <input id="email" type="email" placeholder="Email"
+                            class="@error('email') is-invalid @enderror" name="email" value="{{ Auth::user()->email }}"
+                            required autocomplete="email" autofocus readonly>
+                        @error('email')
+                            <span class="invalid-feedback" role="alert">
+                                <strong>{{ $message }}</strong>
+                            </span>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="single-form">
+                    <button class="btn btn-primary btn-hover-dark w-100">Cập nhật</button>
+                </div>
+            </form>
+
             <div class="engagement-courses table-responsive">
                 <div class="courses-list">
                     <h3 class="text-center mb-3">Bài kiểm tra đã hoàn thành</h3>
@@ -68,7 +102,8 @@
                                         <td>{{ $user_subject->subject->name }}</td>
                                         <td>
                                             <img style="height: 100px;"
-                                                src="{{ \Storage::url($user_subject->subject->image) }}" alt="Courses"></a>
+                                                src="{{ \Storage::url($user_subject->subject->image) }}"
+                                                alt="Courses"></a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -79,4 +114,18 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('toast')
+    @if (session('change_success'))
+        <script>
+            window.onload = function() {
+                swal("Chúc mừng!", "{{ session('change_success') }}", "success");
+            };
+        </script>
+
+        @php
+            Session::forget('change_success');
+        @endphp
+    @endif
 @endsection

@@ -51,7 +51,7 @@ Route::prefix("admin")
                 Route::delete("destroy/{question}", [QuestionController::class, "destroy"])->name("destroy");
             });
 
-            Route::prefix("user")
+        Route::prefix("user")
             ->as("users.")
             ->group(function () {
                 Route::get("/", [UserManageController::class, "index"])->name("index");
@@ -106,6 +106,7 @@ Route::prefix("/")
             ->as("customers.")
             ->group(function () {
                 Route::get("/", [CustomerController::class, "show"])->name("show")->middleware("auth");
+                Route::post("customer/update", [CustomerController::class, "updateCustomer"])->name("update.customer")->middleware("auth");
             });
     });
 
@@ -115,6 +116,9 @@ Route::post('register', [AuthController::class, 'register']);
 
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('login');
 Route::post('login', [AuthController::class, 'login']);
+
+Route::get('change/password', [AuthController::class, 'showChangePassForm'])->name('change');
+Route::post('change/password', [AuthController::class, 'ChangePassword'])->name('password.change');
 
 Route::post('logout', [AuthController::class, 'logout'])->name('logout');
 

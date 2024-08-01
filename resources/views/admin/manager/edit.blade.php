@@ -46,7 +46,7 @@
                                     <div class="mt-3">
                                         <label for="email" class="form-label">Email</label>
                                         <input type="text" class="form-control" id="email" name="email"
-                                            value="{{ $model->email }}">
+                                            value="{{ $model->email }}" readonly>
                                         @error('email')
                                             <p class="mt-2 text-danger">
                                                 {{ $message }}

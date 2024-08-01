@@ -36,13 +36,15 @@
         @include('client.layout.footer')
 
     </div>
+
+    @yield('toast')
+
     <!-- Modernizer & jQuery JS -->
     <script src="{{ asset('theme/client/assets/js/vendor/modernizr-3.11.2.min.js') }}"></script>
     <script src="{{ asset('theme/client/assets/js/vendor/jquery-3.5.1.min.js') }}"></script>
 
     <script src="{{ asset('theme/client/assets/js/plugins.min.js') }}"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
     <script src="{{ asset('theme/client/assets/js/main.js') }}"></script>
 
     @yield('scripts')

@@ -1,6 +1,7 @@
 <?php
 
 use App\Providers\SideBarServiceProdiver;
+use App\Providers\SubHeaderProvider;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -196,7 +197,8 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
-        SideBarServiceProdiver::class
+        SideBarServiceProdiver::class,
+        SubHeaderProvider::class
     ],
 
     /*

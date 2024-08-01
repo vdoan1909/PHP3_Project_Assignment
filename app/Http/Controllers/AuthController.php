@@ -7,12 +7,11 @@ use App\Events\RegisterCompleted;
 use App\Http\Requests\AuthFogetPassRequest;
 use App\Http\Requests\AuthLoginRequest;
 use App\Http\Requests\AuthRegisterRequest;
+use App\Http\Requests\CustomerChangePassRequest;
 use App\Models\PasswordReset;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Str;
 
@@ -159,5 +158,23 @@ class AuthController extends Controller
         PasswordReset::where("email", $request->email)->delete();
 
         return redirect()->route("login")->with("success", "Cập nhật mật khẩu thành công, hãy đăng nhập");
+    }
+
+    public function showChangePassForm()
+    {
+        return view("client.customer.change-pass");
+    }
+
+    public function ChangePassword(CustomerChangePassRequest $request)
+    {
+        $user = User::where("id", Auth::id())->first();
+
+        $user->update(
+            [
+                "password" => bcrypt($request->new_password)
+            ]
+        );
+
+        return redirect()->back()->with("change_success", "Mật khẩu đã được thay đổi");
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CustomerUpdateRequest;
+use App\Models\User;
 use App\Models\UserExam;
 use App\Models\UserSubject;
 use Illuminate\Http\Request;
@@ -14,12 +16,25 @@ class CustomerController extends Controller
     public function show()
     {
         $get_user_exam = UserExam::with("exam")
-        ->where("user_id", Auth::User()->id)
-        ->get();
+            ->where("user_id", Auth::User()->id)
+            ->get();
 
         $get_user_subject = UserSubject::with("subject")
-        ->where("user_id", Auth::User()->id)
-        ->get();
+            ->where("user_id", Auth::User()->id)
+            ->get();
         return view(self::PATH_VIEW . __FUNCTION__, compact("get_user_exam", "get_user_subject"));
+    }
+
+    public function updateCustomer(CustomerUpdateRequest $request)
+    {
+        $customer = User::where("id", Auth::id())->first();
+
+        $customer->update(
+            [
+                "name" => $request->name,
+            ]
+        );
+
+        return back()->with("change_success", "Thông tin đã được cập nhật");
     }
 }
