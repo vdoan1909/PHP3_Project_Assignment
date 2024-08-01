@@ -7,6 +7,8 @@ use App\Http\Requests\ManagerCreateRequest;
 use App\Http\Requests\ManagerUpdateRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class ManagerController extends Controller
 {
@@ -34,14 +36,19 @@ class ManagerController extends Controller
             'role' => $request->role
         ]);
 
+        Log::channel('customer')->info(Auth::user()->name . " đã tạo 1 người quản trị có tên là: " . $request->name);
+
         return redirect()->route('admin.managers.index')->with("success", "Create manager successfully");
     }
 
     public function changeUser($id)
     {
-        User::where("id", $id)->update(
+        $user = User::where("id", $id)->first();
+        $user->update(
             ["role" => "member"]
         );
+        Log::channel('customer')->info("Đã thay đổi: " . $user->name . " thành người dùng");
+
 
         return redirect()->route("admin.users.index")->with("success", "Change user successfully");
     }
@@ -55,6 +62,7 @@ class ManagerController extends Controller
     public function update(ManagerUpdateRequest $request, string $id)
     {
         $user = User::where('id', $id)->first();
+        $currentNameUser = $user->name;
 
         $user->update([
             'name' => $request->name,
@@ -63,12 +71,15 @@ class ManagerController extends Controller
             'role' => $request->role
         ]);
 
+        Log::channel('customer')->info(Auth::user()->name . " đã sửa 1 người quản trị có tên là: " . $currentNameUser);
+
         return redirect()->route('admin.managers.index')->with("success", "Edit manager successfully");
     }
 
     public function destroy(string $id)
     {
         $user = User::where("id", $id)->firstOrFail();
+        Log::channel('customer')->info(Auth::user()->name . " đã xóa 1 người quản trị có tên là: " . $user->name);
         $user->delete();
 
         return redirect()->route("admin.managers.index")->with("success", "Delete manager successfully");

@@ -8,6 +8,8 @@ use App\Imports\QuestionImport;
 use App\Models\Exam;
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class QuestionController extends Controller
@@ -30,9 +32,12 @@ class QuestionController extends Controller
     public function file(QuestionCreateRequest $request)
     {
         $exam_id = $request->exam_id;
+        $exam = Exam::where("id", $exam_id)->first();
+
         $is_create = Excel::import(new QuestionImport($exam_id), $request->file('import_file'));
 
         if ($is_create) {
+            Log::channel('customer')->info(Auth::user()->name . " đã thêm câu hỏi cho bài kiểm tra: " . $exam->name);
             return redirect()->route("admin.questions.index")->with("success", "Import data question successfully");
         }
     }
@@ -46,6 +51,7 @@ class QuestionController extends Controller
 
     public function update(Request $request, Question $question)
     {
+        $currentNameQuestion = $question->name;
         $data = $request->all();
 
         $request->validate(
@@ -61,12 +67,18 @@ class QuestionController extends Controller
         );
 
         $question->update($data);
+        Log::channel('customer')->info(Auth::user()->name . " đã sửa câu hỏi: " . $currentNameQuestion);
 
         return redirect()->route("admin.questions.index")->with("success", "Edit question successfully");
     }
 
     public function destroy(Question $question)
     {
-        //
+        $currentNameQuestion = $question->name;
+
+        $question->delete();
+        Log::channel('customer')->info(Auth::user()->name . " đã xóa câu hỏi: " . $currentNameQuestion);
+
+        return redirect()->route("admin.questions.index")->with("success", "Delete question successfully");
     }
 }

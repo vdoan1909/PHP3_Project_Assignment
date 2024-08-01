@@ -8,7 +8,8 @@
 @endsection
 
 @section('content')
-    <form class="form-group" action="{{ route('admin.subjects.store') }}" method="POST" enctype="multipart/form-data" novalidate>
+    <form class="form-group" action="{{ route('admin.subjects.store') }}" method="POST" enctype="multipart/form-data"
+        novalidate>
         @csrf
         <div class="row">
             <div class="col-12">
@@ -33,7 +34,8 @@
                                 <div class="col-md-4">
                                     <div>
                                         <label for="name" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name">
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            value="{{ old('name') }}">
                                         @error('name')
                                             <p class="mt-2 text-danger">
                                                 {{ $message }}
@@ -66,7 +68,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>

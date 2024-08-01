@@ -49,7 +49,10 @@
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->email }}</td>
                                     <td>
-                                        <span class="badge bg-success">{{ strtoupper($item->role) }}</span>
+                                        <span class="badge badge-label bg-success">
+                                            <i class="mdi mdi-circle-medium"></i>
+                                            {{ strtoupper($item->role) }}
+                                        </span>
                                     </td>
                                     <td>
                                         <div class="dropdown d-inline-block">

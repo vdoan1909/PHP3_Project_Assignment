@@ -58,6 +58,7 @@ Route::prefix("admin")
                 Route::get("create", [UserManageController::class, "create"])->name("create");
                 Route::post("store", [UserManageController::class, "store"])->name("store");
                 Route::get("change-admin/{id}", [UserManageController::class, "changeAdmin"])->name("change.admin");
+                Route::get("change/active/{id}", [UserManageController::class, "changeActive"])->name("change.active");
                 Route::get("edit/{id}", [UserManageController::class, "edit"])->name("edit");
                 Route::put("update/{id}", [UserManageController::class, "update"])->name("update");
                 Route::delete("destroy/{id}", [UserManageController::class, "destroy"])->name("destroy");

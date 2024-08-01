@@ -12,6 +12,7 @@ use App\Models\PasswordReset;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Str;
 
@@ -73,6 +74,7 @@ class AuthController extends Controller
 
         if ($user) {
             RegisterCompleted::dispatch(["username" => $request->name, "email" => $request->email]);
+            Log::channel('customer')->info($user->name . " đã đăng ký tài khoản");
         }
 
         Auth::login($user);
@@ -92,15 +94,23 @@ class AuthController extends Controller
         $remember = $request->remember;
 
         if (Auth::attempt(['email' => $email, 'password' => $password], $remember)) {
-            if (Auth::user()->role == 'admin') {
-                return redirect()->route('admin.index');
-            }
+            $user = Auth::user();
 
-            return redirect()->route('client.index');
+            if ($user->active_status == 0) {
+                Log::channel('customer')->info($user->name . " đã đăng nhập thành công");
+
+                if ($user->role == 'admin') {
+                    return redirect()->route('admin.index');
+                }
+
+                return redirect()->route('client.index');
+            } else {
+                Log::channel('customer')->warning($user->name . " không thể đăng nhập vì tài khoản không hoạt động.");
+            }
         }
         return redirect()->back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+            'email' => 'Thông tin xác thực được cung cấp không khớp với hồ sơ của chúng tôi.',
+        ])->withInput();
     }
 
     public function logout()
@@ -174,6 +184,8 @@ class AuthController extends Controller
                 "password" => bcrypt($request->new_password)
             ]
         );
+
+        Log::channel('customer')->info($user->name . " đã đổi mật khẩu thành công");
 
         return redirect()->back()->with("change_success", "Mật khẩu đã được thay đổi");
     }

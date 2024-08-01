@@ -8,6 +8,7 @@ use App\Models\UserExam;
 use App\Models\UserSubject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class CustomerController extends Controller
 {
@@ -28,12 +29,15 @@ class CustomerController extends Controller
     public function updateCustomer(CustomerUpdateRequest $request)
     {
         $customer = User::where("id", Auth::id())->first();
+        $currentNameCustomer = $customer->name;
 
         $customer->update(
             [
                 "name" => $request->name,
             ]
         );
+
+        Log::channel('customer')->info($currentNameCustomer . " đã cập nhật tài khoản của mình");
 
         return back()->with("change_success", "Thông tin đã được cập nhật");
     }

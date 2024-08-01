@@ -33,7 +33,7 @@
                                 <div class="col-md-4">
                                     <div>
                                         <label for="name" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name">
+                                        <input type="text" class="form-control" id="name" name="name" value="{{old('name')}}">
                                         @error('name')
                                             <p class="mt-2 text-danger">
                                                 {{ $message }}
@@ -43,7 +43,7 @@
 
                                     <div class="mt-3">
                                         <label for="email" class="form-label">Email</label>
-                                        <input type="text" class="form-control" id="email" name="email">
+                                        <input type="text" class="form-control" id="email" name="email" value="{{old('email')}}">
                                         @error('email')
                                             <p class="mt-2 text-danger">
                                                 {{ $message }}
@@ -103,18 +103,6 @@
 @endsection
 
 @section('script-libs')
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
-
     <!-- prismjs plugin -->
     <script src="assets/libs/prismjs/prism.js"></script>
-@endsection
-
-@section('scripts')
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#description'))
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
 @endsection

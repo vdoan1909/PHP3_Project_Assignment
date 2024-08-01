@@ -33,7 +33,8 @@
                                 <div class="col-md-4">
                                     <div>
                                         <label for="name" class="form-label">Name</label>
-                                        <input type="text" class="form-control" id="name" name="name">
+                                        <input type="text" class="form-control" id="name" name="name"
+                                            value="{{ old('name') }}">
                                         @error('name')
                                             <p class="mt-2 text-danger">
                                                 {{ $message }}
@@ -43,7 +44,8 @@
 
                                     <div class="mt-3">
                                         <label for="email" class="form-label">Email</label>
-                                        <input type="text" class="form-control" id="email" name="email">
+                                        <input type="text" class="form-control" id="email" name="email"
+                                            value="{{ old('email') }}">
                                         @error('email')
                                             <p class="mt-2 text-danger">
                                                 {{ $message }}
@@ -55,7 +57,8 @@
                                 <div class="col-md-4">
                                     <div>
                                         <label for="password" class="form-label">Password</label>
-                                        <input type="text" class="form-control" id="password" name="password">
+                                        <input type="text" class="form-control" id="password" name="password"
+                                            value="{{ old('password') }}">
                                         @error('password')
                                             <p class="mt-2 text-danger">
                                                 {{ $message }}
@@ -66,7 +69,7 @@
                                     <div class="mt-3">
                                         <label for="password_confirmation" class="form-label">Confirm Password</label>
                                         <input type="text" class="form-control" id="password_confirmation"
-                                            name="password_confirmation">
+                                            name="password_confirmation" value="{{ old('password_confirmation') }}">
                                         @error('password_confirmation')
                                             <p class="mt-2 text-danger">
                                                 {{ $message }}

@@ -8,6 +8,8 @@ use App\Http\Requests\ExamUpdateRequest;
 use App\Models\Exam;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class ExamController extends Controller
@@ -41,6 +43,7 @@ class ExamController extends Controller
         $is_create = Exam::create($data);
 
         if ($is_create) {
+            Log::channel('customer')->info(Auth::user()->name . " đã thêm bài kiểm tra: " . $data["name"]);
             return redirect()->route("admin.exams.index")->with("success", "Create a new exam successfully");
         } else {
             return redirect()->route("admin.exams.index")->with("error", "Create a new exam failed");
@@ -58,8 +61,7 @@ class ExamController extends Controller
     {
 
         $exam = Exam::where("slug", $slug)->firstOrFail();
-
-        // $request->setExamID($exam->id);
+        $currentNameExam = $exam->name;
 
         $data = $request->all();
 
@@ -72,17 +74,8 @@ class ExamController extends Controller
             $data["slug"] = Str::slug($data["name"]) . "-" . $randomCharacters;
         }
 
-        $request->validate(
-            [
-                "name" => "required|unique:exams,name," . $exam->id,
-                "time_limit" => "required|numeric",
-                "number_of_questions" => "required|numeric",
-                "subject_id" => "required",
-                "description" => "required"
-            ]
-        );
-
         $exam->update($data);
+        Log::channel('customer')->info(Auth::user()->name . " đã sửa bài kiểm tra: " . $currentNameExam);
 
         return redirect()->route("admin.exams.index")->with("success", "Edit exam successfully");
     }
@@ -90,6 +83,7 @@ class ExamController extends Controller
     public function destroy(string $slug)
     {
         $exam = Exam::where("slug", $slug)->firstOrFail();
+        Log::channel('customer')->info(Auth::user()->name . " đã xóa bài kiểm tra: " . $exam->name);
         $exam->delete();
 
         return redirect()->route("admin.exams.index")->with("success", "Delete exam successfully");

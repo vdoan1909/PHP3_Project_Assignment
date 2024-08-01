@@ -8,7 +8,7 @@
 @endsection
 
 @section('content')
-    <form class="form-group" action="{{ route('admin.users.update', $model->id) }}" method="POST" novalidate>
+    <form class="form-group" action="{{ route('admin.managers.update', $model->id) }}" method="POST" novalidate>
         @csrf
         @method('PUT')
         <div class="row">
@@ -106,18 +106,7 @@
 @endsection
 
 @section('script-libs')
-    <script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
-
     <!-- prismjs plugin -->
     <script src="assets/libs/prismjs/prism.js"></script>
 @endsection
-
-@section('scripts')
-    <script>
-        ClassicEditor
-            .create(document.querySelector('#description'))
-            .catch(error => {
-                console.error(error);
-            });
-    </script>
-@endsection
+    

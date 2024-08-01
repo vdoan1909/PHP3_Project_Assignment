@@ -9,6 +9,8 @@ use App\Http\Requests\UserManageUpdateRequest;
 use App\Models\User;
 use App\Models\UserExam;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserManageController extends Controller
@@ -34,14 +36,18 @@ class UserManageController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
+        Log::channel('customer')->info(Auth::user()->name . " đã tạo 1 người dùng có tên là: " . $request->name);
         return redirect()->route('admin.users.index')->with("success", "Create user successfully");
     }
 
     public function changeAdmin($id)
     {
-        User::where("id", $id)->update(
+        $user = User::where("id", $id)->first();
+        $user->update(
             ["role" => "admin"]
         );
+
+        Log::channel('customer')->info("Đã thay đổi: " . $user->name . " thành người quản trị");
 
         return redirect()->route("admin.managers.index")->with("success", "Change user successfully");
     }
@@ -54,11 +60,16 @@ class UserManageController extends Controller
 
     public function update(UserManageUpdateRequest $request, string $id)
     {
-        User::where('id', $id)->update([
+        $user = User::where('id', $id)->first();
+        $currentNameUser = $user->name;
+
+        $user->update([
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
         ]);
+
+        Log::channel('customer')->info(Auth::user()->name . " đã sửa 1 người dùng có tên là: " . $currentNameUser);
 
         return redirect()->route('admin.users.index')->with("success", "Edit user successfully");
     }
@@ -66,6 +77,7 @@ class UserManageController extends Controller
     public function destroy(string $id)
     {
         $user = User::where("id", $id)->firstOrFail();
+        Log::channel('customer')->info(Auth::user()->name . " đã xóa 1 người dùng có tên là: " . $user->name);
         $user->delete();
 
         return redirect()->route("admin.users.index")->with("success", "Delete user successfully");
@@ -85,5 +97,23 @@ class UserManageController extends Controller
         $user = User::where("id", $user_id)->first();
         $filename = "{$user->name}.xlsx";
         return Excel::download(new UserExamExport($user_id), $filename);
+    }
+
+    public function changeActive(Request $request, $id)
+    {
+        $user = User::where("id", $id)->first();
+
+        if ($user->active_status == 0) {
+            $user->active_status = 1;
+            $user->save();
+            Log::channel('customer')->info("Đã sửa trạng thái người dùng: " . $user->name . " từ hoạt động sang không hoạt động");
+        } else {
+            $user->active_status = 0;
+            $user->save();
+            Log::channel('customer')->info("Đã sửa trạng thái người dùng: " . $user->name . " từ không hoạt động sang hoạt động");
+        }
+
+
+        return redirect()->back()->with("success", "Update user successfully");
     }
 }

@@ -1,3 +1,7 @@
+@php
+    use Carbon\Carbon;
+@endphp
+
 @extends('admin.layout.master')
 
 @section('title')
@@ -38,7 +42,10 @@
                                 <th width="10px">ID</th>
                                 <th>Name</th>
                                 <th>Email</th>
+                                <th>Status</th>
                                 <th>Role</th>
+                                <th>Create At</th>
+                                <th>Updated At</th>
                                 <th width="10px">Manage</th>
                             </tr>
                         </thead>
@@ -49,8 +56,23 @@
                                     <td>{{ $item->name }}</td>
                                     <td>{{ $item->email }}</td>
                                     <td>
-                                        <span class="badge bg-primary">{{ strtoupper($item->role) }}</span>
+                                        @if ($item->active_status == 0)
+                                            <span class="badge bg-success-subtle text-success badge-border">
+                                                Active
+                                            </span>
+                                        @else
+                                            <span class="badge bg-danger-subtle text-danger badge-border">
+                                                Inactive
+                                            </span>
+                                        @endif
                                     </td>
+                                    <td>
+                                        <span class="badge bg-dark-subtle text-body badge-border">
+                                            {{ strtoupper($item->role) }}
+                                        </span>
+                                    </td>
+                                    <td>{{ Carbon::parse($item->created_at)->format('H:m d/m/Y') }}</td>
+                                    <td>{{ Carbon::parse($item->updated_at)->format('H:m d/m/Y') }}</td>
                                     <td>
                                         <div class="dropdown d-inline-block">
                                             <button class="btn btn-soft-secondary btn-sm dropdown" type="button"
@@ -71,6 +93,19 @@
                                                         class="dropdown-item edit-item-btn">
                                                         <i class="ri-switch-line align-bottom me-2 text-muted"></i>
                                                         Change To Admin
+                                                    </a>
+                                                </li>
+
+                                                <li>
+                                                    <a href="{{ Route('admin.users.change.active', $item->id) }}"
+                                                        class="dropdown-item edit-item-btn">
+                                                        <i class="ri-exchange-box-line align-bottom me-2 text-muted"></i>
+
+                                                        @if ($item->active_status == 0)
+                                                            Deactivate
+                                                        @else
+                                                            Active
+                                                        @endif
                                                     </a>
                                                 </li>
 

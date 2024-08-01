@@ -7,6 +7,7 @@ use App\Models\UserSubject;
 use Illuminate\Http\Request;
 use App\Models\Subject;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class UserSubjectController extends Controller
 {
@@ -26,6 +27,7 @@ class UserSubjectController extends Controller
     {
         $data = $request->all();
 
+        $get_subject = Subject::where("id", $request->subject_id)->first();
         $get_user = User::find($request->user_id);
 
         if (!$get_user) {
@@ -42,6 +44,7 @@ class UserSubjectController extends Controller
 
         try {
             UserSubject::create($data);
+            Log::channel('customer')->info($get_user->name . " đã đăng ký môn học: " . $get_subject->name);
             return back()->with("user_subject_success", "Đăng ký thành công !");
         } catch (\Exception $e) {
             return back()->with("user_subject_error", $e);

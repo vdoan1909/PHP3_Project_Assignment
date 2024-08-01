@@ -7,6 +7,8 @@ use App\Http\Requests\SubjectCreateRequest;
 use App\Http\Requests\SubjectUpdateRequest;
 use App\Models\Subject;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
@@ -43,6 +45,7 @@ class SubjectController extends Controller
         $is_create = Subject::create($data);
 
         if ($is_create) {
+            Log::channel('customer')->info(Auth::user()->name . " đã thêm 1 môn học mới là: " . $data['name']);
             return redirect()->route("admin.subjects.index")->with("success", "Create a new subject successfully");
         } else {
             return redirect()->route("admin.subjects.index")->with("error", "Create a new subject failed");
@@ -58,6 +61,7 @@ class SubjectController extends Controller
     public function update(SubjectUpdateRequest $request, string $slug)
     {
         $subject = Subject::where("slug", $slug)->firstOrFail();
+        $currentNameSubject = $subject->name;
 
         $data = $request->except("image");
 
@@ -81,12 +85,15 @@ class SubjectController extends Controller
             Storage::delete($currentImage);
         }
 
+        Log::channel('customer')->info(Auth::user()->name . " đã sửa 1 môn học là: " . $currentNameSubject);
+
         return redirect()->route("admin.subjects.index")->with("success", "Edit subject successfully");
     }
 
     public function destroy(string $slug)
     {
         $subject = Subject::where("slug", $slug)->firstOrFail();
+        $currentNameSubject = $subject->name;
 
         $subject->delete();
 
@@ -94,6 +101,7 @@ class SubjectController extends Controller
             Storage::delete($subject->image);
         }
 
+        Log::channel('customer')->info(Auth::user()->name . " đã xóa 1 môn học là: " . $currentNameSubject);
         return back()->with("success", "Delete subject successfully");
     }
 }
