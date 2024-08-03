@@ -10,6 +10,7 @@ use App\Models\UserSubject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -84,13 +85,18 @@ class HomeController extends Controller
     public function startQuizz(Request $request)
     {
         $currentDate = Carbon::now("Asia/Ho_Chi_Minh")->format('d/m/Y');
+        $currentTime = Carbon::now("Asia/Ho_Chi_Minh")->format('H:i:s');
         $exam = Exam::where("slug", $request->slug)->with("questions")->firstOrFail();
         $exam->questions = $exam->questions->shuffle();
+        Log::channel("customer")->info(Auth::user()->name . " đã làm bài kiểm tra: " . $exam->name . " vào lúc: " . $currentTime . " " . $currentDate);
         return view("client.exam.startQuizz", compact("exam", "currentDate"));
     }
 
     public function finallyQuizz(Request $request)
     {
+        $currentDate = Carbon::now("Asia/Ho_Chi_Minh")->format('d/m/Y');
+        $currentTime = Carbon::now("Asia/Ho_Chi_Minh")->format('H:i:s');
+
         $data = $request->all();
 
         $exam = Exam::where("slug", $request->slug)->with("questions")->firstOrFail();
@@ -145,6 +151,8 @@ class HomeController extends Controller
         ];
 
         QuizCompleted::dispatch($eventData);
+        Log::channel("customer")->info(Auth::user()->name . " đã hoàn thành bài kiểm tra: " . $exam->name . " vào lúc: " . $currentTime . " " . $currentDate . " với só điểm là: " . $score . "đ");
+
 
         return redirect()->route("client.exams.result")->with(
             [
