@@ -104,10 +104,13 @@ Route::prefix("/")
             });
 
         Route::prefix("customer")
+            ->middleware("auth")
             ->as("customers.")
             ->group(function () {
-                Route::get("/", [CustomerController::class, "show"])->name("show")->middleware("auth");
-                Route::post("customer/update", [CustomerController::class, "updateCustomer"])->name("update.customer")->middleware("auth");
+                Route::get("/", [CustomerController::class, "show"])->name("show");
+                Route::post("customer/update", [CustomerController::class, "updateCustomer"])->name("update.customer");
+                Route::get('customer/export/{user_id}', [CustomerController::class, 'export'])->name("export");
+
             });
     });
 

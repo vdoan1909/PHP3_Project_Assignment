@@ -63,3 +63,39 @@
         </div>
     </div>
 @endsection
+
+@section('toast')
+    @if (session('user_subject_success'))
+        <script>
+            window.onload = function() {
+                swal("Chúc mừng!", "{{ session('user_subject_success') }}", "success");
+            };
+        </script>
+
+        @php
+            Session::forget('user_subject_success');
+        @endphp
+    @endif
+
+    @if (session('user_subject_warning'))
+        <script>
+            window.onload = function() {
+                swal("Tiếc quá!", "{{ session('user_subject_warning') }}", "warning");
+            };
+        </script>
+        @php
+            Session::forget('user_subject_warning');
+        @endphp
+    @endif
+
+    @if (session('user_subject_error'))
+        <script>
+            window.onload = function() {
+                swal("Rất tiếc!", "{{ session('user_subject_error') }}", "error");
+            };
+        </script>
+        @php
+            Session::forget('user_subject_error');
+        @endphp
+    @endif
+@endsection

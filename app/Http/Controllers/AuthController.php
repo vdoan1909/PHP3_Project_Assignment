@@ -132,7 +132,8 @@ class AuthController extends Controller
             [
                 "email" => $request->email,
                 "token" => $token,
-                "created_at" => Carbon::now()
+                "created_at" => Carbon::now(),
+                "expires_at" => Carbon::now()->addMinutes(5),
             ]
         );
 
@@ -148,8 +149,6 @@ class AuthController extends Controller
 
     public function resetPasswordPost(AuthFogetPassRequest $request)
     {
-        // dd($request->all());
-
         $password_reset = PasswordReset::where(
             [
                 "email" => $request->email,
@@ -158,7 +157,11 @@ class AuthController extends Controller
         )->first();
 
         if (!$password_reset) {
-            return redirect()->route("reset.password")->with("error", "Đã có lỗi xảy ra");
+            return back()->with("error", "Đã có lỗi xảy ra");
+        }
+
+        if (Carbon::now()->greaterThan($password_reset->expires_at)) {
+            return back()->with("error", "Đã hết thời gian bạn hãy gửi lại yêu cầu 1 lần nữa");
         }
 
         $pass_hash = bcrypt($request->password);

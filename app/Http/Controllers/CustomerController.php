@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UserExamExport;
 use App\Http\Requests\CustomerUpdateRequest;
 use App\Models\User;
 use App\Models\UserExam;
@@ -9,6 +10,7 @@ use App\Models\UserSubject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Maatwebsite\Excel\Facades\Excel;
 
 class CustomerController extends Controller
 {
@@ -40,5 +42,12 @@ class CustomerController extends Controller
         Log::channel('customer')->info($currentNameCustomer . " đã cập nhật tài khoản của mình");
 
         return back()->with("change_success", "Thông tin đã được cập nhật");
+    }
+
+    public function export($user_id)
+    {
+        $user = User::where("id", $user_id)->first();
+        $filename = "{$user->name}.xlsx";
+        return Excel::download(new UserExamExport($user_id), $filename);
     }
 }

@@ -17,7 +17,7 @@
                 Vào trang quản trị
             </a>
         @endif
-        <a href="{{route("change")}}">
+        <a href="{{ route('change') }}">
             Đổi mật khẩu
         </a>
     </div>
@@ -66,6 +66,12 @@
                                 <th scope="col">Số Câu Hỏi</th>
                                 <th scope="col">Giới Hạn Thời Gian (Phút)</th>
                                 <th scope="col">Điểm</th>
+                                <th scope="col">
+                                    <a class="text-success"
+                                        href="{{ Route('client.customers.export', Auth::user()->id) }}">
+                                        Tải kết quả
+                                    </a>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>
